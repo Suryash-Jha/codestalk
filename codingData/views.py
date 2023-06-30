@@ -7,9 +7,7 @@ from codingData.callApi import getGFGData
 
 def getBasicData(request, id):
     res = getGFGData(id)
-    # res.jsonify()
     return JsonResponse(res)
-    # return JsonResponse({"id": id})
 
 
 def index(request):
