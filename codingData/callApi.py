@@ -1,6 +1,7 @@
 import requests
 import json
 import bs4
+import regex as re
 
 
 def getGFGData(id):
@@ -32,6 +33,33 @@ def getGFGData(id):
             "user": id,
             "profile": "",
             "total_score": 0,
+            "total_problem_solved": 0,
+        }
+    return res
+
+def getCodeforcesData(id):
+    url = f"https://codeforces.com/profile/{id}"
+    html = requests.get(url)
+    soup = bs4.BeautifulSoup(html.text, "html.parser")
+    try:
+        temp = soup.select("._UserActivityFrame_counterValue")[0].getText()
+        total_problem_solved = int(re.search(r"\d+", temp).group())
+        temp_reting = soup.select(".user-gray")[6].getText()
+        print(temp_reting)
+        res = {
+            "status": 200,
+            "user": id,
+            "profile": f"https://codeforces.com/profile/{id}",
+            "rating": int(temp_reting),
+            "total_problem_solved": total_problem_solved,
+        }
+
+    except:
+        res = {
+            "status": 404,
+            "user": id,
+            "profile": "",
+            "rating": 0,
             "total_problem_solved": 0,
         }
     return res

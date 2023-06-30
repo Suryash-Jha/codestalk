@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "codingData",
     "django_countries",
+    "authentication",
 ]
 
 MIDDLEWARE = [
