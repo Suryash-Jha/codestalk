@@ -5,6 +5,7 @@ from codingData.callApi import (
     getCodeforcesData,
     getCodechefData,
     getHackkerankData,
+    getLeetcodeData,
 )
 
 # Create your views here.
@@ -14,7 +15,8 @@ def getBasicData(request, id):
     # res = getGFGData(id)
     # res = getCodeforcesData(id)
     # res = getCodechefData(id)
-    res = getHackkerankData(id)
+    # res = getHackkerankData(id)
+    res = getLeetcodeData(id)
 
     return JsonResponse(res)
 
