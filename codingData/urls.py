@@ -5,4 +5,5 @@ urlpatterns = [
     path("user/<str:id>", views.getBasicData, name="codingData"),
     path("", views.index, name="index"),
     path("createId/", views.createId, name="createId"),
+    path("api/<str:id>", views.apiRes, name="api"),
 ]

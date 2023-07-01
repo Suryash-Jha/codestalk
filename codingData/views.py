@@ -35,12 +35,15 @@ class BasicData(forms.ModelForm):
         )
 
 
+# http://127.0.0.1:8000/api/suryashjha123
+
+
 def getBasicData(request, id):
     # res = getGFGData(id)
-    # res = getCodeforcesData(id)
+    res = getCodeforcesData(id)
     # res = getCodechefData(id)
     # res = getHackkerankData(id)
-    res = getLeetcodeData(id)
+    # res = getLeetcodeData(id)
 
     return JsonResponse(res)
 
@@ -66,6 +69,50 @@ def createId(request):
         {"form": form, "status": status, "statusCode": statusCode},
     )
     # return render(request, "createId.html")
+
+
+def apiRes(request, id):
+    finRes = {}
+    tot = 0
+    id_codechef = userDetails.objects.get(codestalk_handle=id).id_codechef
+    id_codeforces = userDetails.objects.get(codestalk_handle=id).id_codeforces
+    id_hackkerank = userDetails.objects.get(codestalk_handle=id).id_hackkerank
+    id_gfg = userDetails.objects.get(codestalk_handle=id).id_gfg
+    id_leetcode = userDetails.objects.get(codestalk_handle=id).id_leetcode
+
+    try:
+        res = getGFGData(id_gfg)
+        finRes["total_question_gfg"] = res["total_problem_solved"]
+        tot += int(res["total_problem_solved"])
+
+        res = getCodeforcesData(id_codeforces)
+        finRes["total_question_cf"] = res["total_problem_solved"]
+        tot += int(res["total_problem_solved"])
+
+        res = getCodechefData(id_codechef)
+        finRes["total_question_cc"] = res["total_problem_solved"]
+        tot += int(res["total_problem_solved"])
+
+        res = getLeetcodeData(id_leetcode)
+        finRes["total_question_lc"] = res["total_problem_solved"]
+        tot += int(res["total_problem_solved"])
+
+        res = getHackkerankData(id_hackkerank)
+        finRes["total_question_hk"] = res["total_problem_solved"]
+        tot += int(res["total_problem_solved"])
+
+        finRes["total_question"] = tot
+
+    except Exception as e:
+        finRes["total_question_gfg"] = 0
+        finRes["total_question_cf"] = 0
+        finRes["total_question_cc"] = 0
+        finRes["total_question_lc"] = 0
+        finRes["total_question_hk"] = 0
+        finRes["total_question"] = 0
+        finRes["error"] = str(e)
+
+    return JsonResponse(finRes)
 
 
 def index(request):
