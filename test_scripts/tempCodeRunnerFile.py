@@ -1,3 +1,14 @@
-  # for i in temp_reting:
-    #     temp_retings=i.getText()
-    #     print(temp_retings)
+'authority': 'www.hackerrank.com',
+'accept': 'application/json',
+'accept-language': 'en-US,en;q=0.9',
+'content-type': 'application/json',
+'if-none-match': 'W/"fe5b9cef0b2f678db37085baccd65b45"',
+'sec-ch-ua': '"Not.A/Brand";v="8", "Chromium";v="114", "Google Chrome";v="114"',
+'sec-ch-ua-mobile': '?1',
+'sec-ch-ua-platform': '"Android"',
+'sec-fetch-dest': 'empty',
+'sec-fetch-mode': 'cors',
+'sec-fetch-site': 'same-origin',
+'user-agent': 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Mobile Safari/537.36',
+'x-csrf-token': '+HoDulpylNUOhoKX2qbc7oFyvCzBCUdpI8Uk8sKXm+ZiX4rJ2UAg8KqEPtnaWkeezkj0FD91clingBpKkMgeTg==',
+}
