@@ -16,11 +16,11 @@ class userDetails(models.Model):
     id_leetcode = models.CharField(max_length=100)
     id_gfg = models.CharField(max_length=100)
     id_hackkerank = models.CharField(max_length=100)
-    totalQuestions_codeforces = models.IntegerField()
-    totalQuestions_codechef = models.IntegerField()
-    totalQuestions_leetcode = models.IntegerField()
-    totalQuestions_gfg = models.IntegerField()
-    totalQuestions_hackkerank = models.IntegerField()
+    totalQuestions_codeforces = models.IntegerField(default=0)
+    totalQuestions_codechef = models.IntegerField(default=0)
+    totalQuestions_leetcode = models.IntegerField(default=0)
+    totalQuestions_gfg = models.IntegerField(default=0)
+    totalQuestions_hackkerank = models.IntegerField(default=0)
 
     def __str__(self):
         return self.codestalk_handle
