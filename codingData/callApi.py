@@ -10,9 +10,9 @@ def getGFGData(id):
         html = requests.get(url)
         soup = bs4.BeautifulSoup(html.text, "html.parser")
         total_score = soup.find_all("span", {"class": "score_card_value"})[0].string
-        total_problem_solved = soup.find_all("span", {"class": "score_card_value"})[
-            1
-        ].string
+        total_problem_solved = int(
+            soup.find_all("span", {"class": "score_card_value"})[1].string
+        )
 
         res = {
             "status": 200,

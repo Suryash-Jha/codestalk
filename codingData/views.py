@@ -9,6 +9,7 @@ from codingData.callApi import (
     getLeetcodeData,
 )
 from django import forms
+import time
 
 # Create your views here.
 
@@ -72,47 +73,59 @@ def createId(request):
 
 
 def apiRes(request, id):
+    platforms = {
+        "id_codechef": {
+            "data_function": getCodechefData,
+            "result_key": "total_question_cc",
+        },
+        "id_codeforces": {
+            "data_function": getCodeforcesData,
+            "result_key": "total_question_cf",
+        },
+        "id_hackkerank": {
+            "data_function": getHackkerankData,
+            "result_key": "total_question_hk",
+        },
+        "id_gfg": {"data_function": getGFGData, "result_key": "total_question_gfg"},
+        "id_leetcode": {
+            "data_function": getLeetcodeData,
+            "result_key": "total_question_lc",
+        },
+    }
+
     finRes = {}
     tot = 0
-    id_codechef = userDetails.objects.get(codestalk_handle=id).id_codechef
-    id_codeforces = userDetails.objects.get(codestalk_handle=id).id_codeforces
-    id_hackkerank = userDetails.objects.get(codestalk_handle=id).id_hackkerank
-    id_gfg = userDetails.objects.get(codestalk_handle=id).id_gfg
-    id_leetcode = userDetails.objects.get(codestalk_handle=id).id_leetcode
 
     try:
-        res = getGFGData(id_gfg)
-        finRes["total_question_gfg"] = res["total_problem_solved"]
-        tot += int(res["total_problem_solved"])
-
-        res = getCodeforcesData(id_codeforces)
-        finRes["total_question_cf"] = res["total_problem_solved"]
-        tot += int(res["total_problem_solved"])
-
-        res = getCodechefData(id_codechef)
-        finRes["total_question_cc"] = res["total_problem_solved"]
-        tot += int(res["total_problem_solved"])
-
-        res = getLeetcodeData(id_leetcode)
-        finRes["total_question_lc"] = res["total_problem_solved"]
-        tot += int(res["total_problem_solved"])
-
-        res = getHackkerankData(id_hackkerank)
-        finRes["total_question_hk"] = res["total_problem_solved"]
-        tot += int(res["total_problem_solved"])
+        for platform, platform_data in platforms.items():
+            platform_id = getattr(
+                userDetails.objects.get(codestalk_handle=id), platform
+            )
+            try:
+                start_time = time.time()
+                res = platform_data["data_function"](platform_id)
+                duration = time.time() - start_time
+                finRes[platform_data["result_key"]] = res["total_problem_solved"]
+                finRes[platform_data["result_key"] + "_duration"] = duration
+                tot += int(res["total_problem_solved"])
+            except Exception:
+                finRes[platform_data["result_key"]] = 0
+                finRes[platform_data["result_key"] + "_duration"] = 0
 
         finRes["total_question"] = tot
-
+        finRes["id"] = id
     except Exception as e:
-        finRes["total_question_gfg"] = 0
-        finRes["total_question_cf"] = 0
-        finRes["total_question_cc"] = 0
-        finRes["total_question_lc"] = 0
-        finRes["total_question_hk"] = 0
-        finRes["total_question"] = 0
-        finRes["error"] = str(e)
+        finRes = {
+            "total_question_gfg": 0,
+            "total_question_cf": 0,
+            "total_question_cc": 0,
+            "total_question_lc": 0,
+            "total_question_hk": 0,
+            "total_question": 0,
+            "id": id,
+        }
 
-    return JsonResponse(finRes)
+    return render(request, "ShowApiRes.html", {"finRes": finRes})
 
 
 def index(request):
