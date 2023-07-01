@@ -46,15 +46,25 @@ def getBasicData(request, id):
 
 
 def createId(request):
+    statusCode = 200
+    status = ""
+
     if request.method == "POST":
-        print(request.POST)
-        form = BasicData(request.POST)
-        if form.is_valid():
-            form.save()
-            print("saved")
+        try:
+            form = BasicData(request.POST)
+            if form.is_valid():
+                form.save()
+
+        except Exception as e:
+            statusCode = 404
+            status = "Failed to save data" + str(e)
     else:
         form = BasicData()
-    return render(request, "createId.html", {"form": form})
+    return render(
+        request,
+        "createId.html",
+        {"form": form, "status": status, "statusCode": statusCode},
+    )
     # return render(request, "createId.html")
 
 
