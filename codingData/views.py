@@ -72,6 +72,62 @@ def createId(request):
     # return render(request, "createId.html")
 
 
+def IdExists(id):
+    try:
+        userDetails.objects.get(codestalk_handle=id)
+    except userDetails.DoesNotExist:
+        return False
+    return True
+
+
+def retrieveFromDb(request, id):
+    finRes = {}
+    try:
+        if IdExists(id):
+            DatafromDb = userDetails.objects.get(codestalk_handle=id)
+            finRes = {
+                "status": 200,
+                "total_question_gfg": DatafromDb.totalQuestions_gfg,
+                "total_question_cf": DatafromDb.totalQuestions_codeforces,
+                "total_question_cc": DatafromDb.totalQuestions_codechef,
+                "total_question_lc": DatafromDb.totalQuestions_leetcode,
+                "total_question_hk": DatafromDb.totalQuestions_hackkerank,
+                "total_question": DatafromDb.totalQuestions_codeforces
+                + DatafromDb.totalQuestions_codechef
+                + DatafromDb.totalQuestions_gfg
+                + DatafromDb.totalQuestions_hackkerank
+                + DatafromDb.totalQuestions_leetcode,
+                "id": id,
+            }
+        else:
+            finRes = {
+                "status": 402,
+                "total_question_gfg": 0,
+                "total_question_cf": 0,
+                "total_question_cc": 0,
+                "total_question_lc": 0,
+                "total_question_hk": 0,
+                "total_question": 0,
+                "id": id,
+                "error": "Id does not exist",
+            }
+
+    except Exception as e:
+        finRes = {
+            "status": 404,
+            "total_question_gfg": 0,
+            "total_question_cf": 0,
+            "total_question_cc": 0,
+            "total_question_lc": 0,
+            "total_question_hk": 0,
+            "total_question": 0,
+            "id": id,
+            "error": str(e),
+        }
+        # return HttpResponse("Id does not exist")
+    return render(request, "showApiRes.html", {"finRes": finRes})
+
+
 def apiRes(request, id):
     platforms = {
         "id_codechef": {
@@ -125,7 +181,7 @@ def apiRes(request, id):
             "id": id,
         }
 
-    return render(request, "ShowApiRes.html", {"finRes": finRes})
+    return JsonResponse(finRes)
 
 
 def index(request):
