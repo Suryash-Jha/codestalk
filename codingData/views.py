@@ -132,20 +132,20 @@ def apiRes(request, id):
     platforms = {
         "id_codechef": {
             "data_function": getCodechefData,
-            "result_key": "total_question_cc",
+            "result_key": "totalQuestions_codechef",
         },
         "id_codeforces": {
             "data_function": getCodeforcesData,
-            "result_key": "total_question_cf",
+            "result_key": "totalQuestions_codeforces",
         },
         "id_hackkerank": {
             "data_function": getHackkerankData,
-            "result_key": "total_question_hk",
+            "result_key": "totalQuestions_hackkerank",
         },
-        "id_gfg": {"data_function": getGFGData, "result_key": "total_question_gfg"},
+        "id_gfg": {"data_function": getGFGData, "result_key": "totalQuestions_gfg"},
         "id_leetcode": {
             "data_function": getLeetcodeData,
-            "result_key": "total_question_lc",
+            "result_key": "totalQuestions_leetcode",
         },
     }
 
@@ -153,6 +153,7 @@ def apiRes(request, id):
     tot = 0
 
     try:
+        DatafromDb = userDetails.objects.get(codestalk_handle=id)
         for platform, platform_data in platforms.items():
             platform_id = getattr(
                 userDetails.objects.get(codestalk_handle=id), platform
@@ -161,6 +162,7 @@ def apiRes(request, id):
                 start_time = time.time()
                 res = platform_data["data_function"](platform_id)
                 duration = time.time() - start_time
+                DatafromDb.platform_data["result_key"] = res["total_problem_solved"]
                 finRes[platform_data["result_key"]] = res["total_problem_solved"]
                 finRes[platform_data["result_key"] + "_duration"] = duration
                 tot += int(res["total_problem_solved"])

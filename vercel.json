@@ -1,0 +1,14 @@
+{
+  "builds": [
+    {
+      "src": "/codestalk/wsgi.py",
+      "use": "@vercel/python"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/codestalk/wsgi.py"
+    }
+  ]
+}
