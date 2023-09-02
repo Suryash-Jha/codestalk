@@ -129,59 +129,57 @@ def retrieveFromDb(request, id):
 
 
 def apiRes(request, id):
-    platforms = {
-        "id_codechef": {
-            "data_function": getCodechefData,
-            "result_key": "totalQuestions_codechef",
-        },
-        "id_codeforces": {
-            "data_function": getCodeforcesData,
-            "result_key": "totalQuestions_codeforces",
-        },
-        "id_hackkerank": {
-            "data_function": getHackkerankData,
-            "result_key": "totalQuestions_hackkerank",
-        },
-        "id_gfg": {"data_function": getGFGData, "result_key": "totalQuestions_gfg"},
-        "id_leetcode": {
-            "data_function": getLeetcodeData,
-            "result_key": "totalQuestions_leetcode",
-        },
-    }
-
     finRes = {}
     tot = 0
+    id_codechef = userDetails.objects.get(codestalk_handle=id).id_codechef
+    print(id_codechef)
+    id_codeforces = userDetails.objects.get(codestalk_handle=id).id_codeforces
+    id_hackkerank = userDetails.objects.get(codestalk_handle=id).id_hackkerank
+    id_gfg = userDetails.objects.get(codestalk_handle=id).id_gfg
+    id_leetcode = userDetails.objects.get(codestalk_handle=id).id_leetcode
+    DbObj = userDetails.objects.get(name=id)
 
     try:
-        DatafromDb = userDetails.objects.get(codestalk_handle=id)
-        for platform, platform_data in platforms.items():
-            platform_id = getattr(
-                userDetails.objects.get(codestalk_handle=id), platform
-            )
-            try:
-                start_time = time.time()
-                res = platform_data["data_function"](platform_id)
-                duration = time.time() - start_time
-                DatafromDb.platform_data["result_key"] = res["total_problem_solved"]
-                finRes[platform_data["result_key"]] = res["total_problem_solved"]
-                finRes[platform_data["result_key"] + "_duration"] = duration
-                tot += int(res["total_problem_solved"])
-            except Exception:
-                finRes[platform_data["result_key"]] = 0
-                finRes[platform_data["result_key"] + "_duration"] = 0
+        res = getGFGData(id_gfg)
+        finRes["total_question_gfg"] = res["total_problem_solved"]
+        DbObj.totalQuestions_gfg = res["total_problem_solved"]
+        DbObj.save()
+        tot += int(res["total_problem_solved"])
+
+        res = getCodeforcesData(id_codeforces)
+        finRes["total_question_cf"] = res["total_problem_solved"]
+        DbObj.totalQuestions_codeforces = res["total_problem_solved"]
+        DbObj.save()
+        tot += int(res["total_problem_solved"])
+
+        res = getCodechefData(id_codechef)
+        finRes["total_question_cc"] = res["total_problem_solved"]
+        DbObj.totalQuestions_codechef = res["total_problem_solved"]
+        DbObj.save()
+        tot += int(res["total_problem_solved"])
+
+        res = getLeetcodeData(id_leetcode)
+        finRes["total_question_lc"] = res["total_problem_solved"]
+        DbObj.totalQuestions_leetcode = res["total_problem_solved"]
+        DbObj.save()
+        tot += int(res["total_problem_solved"])
+
+        res = getHackkerankData(id_hackkerank)
+        finRes["total_question_hk"] = res["total_problem_solved"]
+        DbObj.totalQuestions_hackkerank = res["total_problem_solved"]
+        DbObj.save()
+        tot += int(res["total_problem_solved"])
 
         finRes["total_question"] = tot
-        finRes["id"] = id
+
     except Exception as e:
-        finRes = {
-            "total_question_gfg": 0,
-            "total_question_cf": 0,
-            "total_question_cc": 0,
-            "total_question_lc": 0,
-            "total_question_hk": 0,
-            "total_question": 0,
-            "id": id,
-        }
+        finRes["total_question_gfg"] = 0
+        finRes["total_question_cf"] = 0
+        finRes["total_question_cc"] = 0
+        finRes["total_question_lc"] = 0
+        finRes["total_question_hk"] = 0
+        finRes["total_question"] = 0
+        finRes["error"] = str(e)
 
     return JsonResponse(finRes)
 

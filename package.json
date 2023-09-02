@@ -1,0 +1,8 @@
+{
+    "name": "my-project",
+    "version": "1.0.0",
+    "dependencies": {
+      "sqlite3": ">=3.8.3"
+    }
+  }
+  

@@ -6,6 +6,7 @@ import regex as re
 
 def getGFGData(id):
     try:
+        print("gfg api called")
         url = f"https://auth.geeksforgeeks.org/user/{id}"
         html = requests.get(url)
         soup = bs4.BeautifulSoup(html.text, "html.parser")
@@ -77,10 +78,11 @@ def getCodechefData(id):
             "profile": "",
             "total_problem_solved": 0,
         }
+    
     return res
 
 
-def getHackkerankData(id):
+def getHackkerankData(id): 
     try:
         cookies = {
             "hackerrank_mixpanel_token": "c8badb28-5dcd-4e85-9c1d-df4479d1db0f",
