@@ -132,12 +132,11 @@ def apiRes(request, id):
     finRes = {}
     tot = 0
     id_codechef = userDetails.objects.get(codestalk_handle=id).id_codechef
-    print(id_codechef)
     id_codeforces = userDetails.objects.get(codestalk_handle=id).id_codeforces
     id_hackkerank = userDetails.objects.get(codestalk_handle=id).id_hackkerank
     id_gfg = userDetails.objects.get(codestalk_handle=id).id_gfg
     id_leetcode = userDetails.objects.get(codestalk_handle=id).id_leetcode
-    DbObj = userDetails.objects.get(name=id)
+    DbObj = userDetails.objects.get(codestalk_handle=id)
 
     try:
         res = getGFGData(id_gfg)
@@ -186,3 +185,9 @@ def apiRes(request, id):
 
 def index(request):
     return HttpResponse("Hello, world. You're at the codingData index.")
+
+
+def getAllUsers(request):
+    usr = userDetails.objects.all()
+    print(usr)
+    return render(request, "showApiRes.html", {"finRes": usr})

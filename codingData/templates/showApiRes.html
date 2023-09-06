@@ -1,34 +1,47 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-</head>
-<style>
+  </head>
+  <style>
     * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
     }
 
     .container {
-        display: flex;
-        flex-direction: column;
-        /* padding: 10vh; */
-        width: 100vw;
-        height: 100vh;
-        align-items: center;
-        justify-content: center;
-
-
+      display: flex;
+      flex-direction: column;
+      /* padding: 10vh; */
+      width: 100vw;
+      height: 100vh;
+      align-items: center;
+      /* justify-content: center; */
     }
-</style>
+    .nav {
+      height: 10%;
+      width: 100%;
+      background-color: black;
+    }
+    .prof_data {
+      margin: 2vh;
+      height: 30%;
+      width: 100%;
+      background-color: red;
+    }
+    button img{
+        height: 100%;
+        width: 20%;
+    }
+  </style>
 
-<body>
-
-    <div class="container">
+  <body>
+    <!-- <div class="container">
 
 
         <h1>{{finRes.id}}</h1>
@@ -38,8 +51,26 @@
         <h3>LeetCode: {{finRes.total_question_lc}}</h3>
         <h3>GeekForGeeks: {{finRes.total_question_gfg}}</h3>
         <h2>Total: {{finRes.total_question}}</h2>
+    </div> -->
+
+    <div class="container">
+      <div class="nav">
+        <button>
+            <img src="{% static 'icons8-home-150.png' %}" alt="Home">
+        </button>
+        <button>
+            <img src="{% static 'icons8-friends-64.png' %}" alt="Friends">
+        </button>
+      </div>
+      <div class="prof_data">
+        <h1>{{finRes.id}}</h1>
+        <h3>Codechef: {{finRes.total_question_cc}}</h3>
+        <h3>Codeforces: {{finRes.total_question_cf}}</h3>
+        <h3>Hackerrank: {{finRes.total_question_hk}}</h3>
+        <h3>LeetCode: {{finRes.total_question_lc}}</h3>
+        <h3>GeekForGeeks: {{finRes.total_question_gfg}}</h3>
+        <h2>Total: {{finRes.total_question}}</h2>
+      </div>
     </div>
-
-</body>
-
+  </body>
 </html>
