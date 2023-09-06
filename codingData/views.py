@@ -10,6 +10,7 @@ from codingData.callApi import (
 )
 from django import forms
 import time
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
@@ -48,7 +49,7 @@ def getBasicData(request, id):
 
     return JsonResponse(res)
 
-
+@login_required
 def createId(request):
     statusCode = 200
     status = ""
@@ -79,7 +80,7 @@ def IdExists(id):
         return False
     return True
 
-
+@login_required
 def retrieveFromDb(request, id):
     finRes = {}
     try:
