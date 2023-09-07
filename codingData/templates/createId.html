@@ -1,69 +1,74 @@
+{% extends 'base.html' %} 
+{% block content %}
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-</head>
-<style>
+  </head>
+  <style>
     form {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
 
     label {
-        margin-top: 10px;
-        font-size: larger;
-        color: blue;
+      margin-top: 10px;
+      font-size: larger;
+      color: blue;
     }
 
     input {
-        margin-top: 10px;
-        height: 3vh;
-        width: 20%;
-        font-size: larger;
-        color: black;
+      margin-top: 10px;
+      height: 3vh;
+      width: 20%;
+      font-size: larger;
+      color: black;
     }
 
     .flex-h {
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
-        margin: 2vh;
-        width: 100%;
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      margin: 2vh;
+      width: 100%;
     }
-</style>
+  </style>
 
-<body>
+  <body>
     <h1>Hey</h1>
     {% if statusCode == 200 %}
-    <h2 style="background-color: green; width: 100vw; height:3vh;">{{ status }}</h2>
+    <h2 style="background-color: green; width: 100vw; height: 3vh">
+      {{ status }}
+    </h2>
     {% elif statusCode == 404 %}
-    <h2 style="background-color: red; width: 100vw; height:3vh;">{{ status }}</h2>
+    <h2 style="background-color: red; width: 100vw; height: 3vh">
+      {{ status }}
+    </h2>
     {% endif %}
 
-
-    <h2> {{statusCode}}</h2>
+    <h2>{{statusCode}}</h2>
 
     <form method="post">
-        {% csrf_token %}
-        {% for field in form %}
-        <div class="flex-h">
-            <label for="{{ field.id_for_label }}"> {% if field.field.required %} <span style="color: red">*</span>
-                {% endif %}{{ field.label }}</label>
-            {{field}}
-            {% if field.error %}
-            <small style="color: grey">{{ field.error }}</small>
-            {% endif %}
+      {% csrf_token %} 
+      {% for field in form %}
+      <div class="flex-h">
+        <label for="{{ field.id_for_label }}">
+          {% if field.field.required %} 
+          <span style="color: red">*</span> 
+          {% endif %}{{ field.label }}</label
+        >
+        {{field}} 
+        {% if field.error %}
+        <small style="color: grey">{{ field.error }}</small>
+        {% endif %}
+      </div>
+      {% endfor %}
 
-        </div>
-        {% endfor %}
-
-
-        <input type="submit" value="Submit">
+      <input type="submit" value="Submit" />
     </form>
-</body>
-
+  </body>
 </html>
+{% endblock %}

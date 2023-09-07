@@ -1,13 +1,13 @@
 from django.shortcuts import render
-from django.http import HttpRequest, JsonResponse
+from django.http import HttpRequest, JsonResponse, HttpResponse
 from django.contrib.auth.models import User
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 
 
 # Create your views here.
 def loginx(request):
     if request.method == "POST":
-        useremail= request.POST.get("email")
+        useremail = request.POST.get("email")
         passw = request.POST.get("password")
         # print(email + " " + passw)
         user = authenticate(request, username=useremail, password=passw)
@@ -22,6 +22,12 @@ def loginx(request):
         return render(request, "login.html")
     else:
         return render(request, "login.html")
+
+
+def logoutx(request):
+    logout(request)
+    return HttpResponse("Successfully LoggedOut")
+
 
 
 def signup(request):

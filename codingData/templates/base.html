@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <style>
+    nav {
+      height: 3vh;
+      width: 100vw;
+      background-color: black;
+      color: white;
+    }
+  </style>
+  <body>
+
+    <nav>
+        <a href="/">Home</a>
+        {% if not user.authenticated %}
+        <div class="if_not_authenticated">
+          <select name="register" id="register">
+            <option value="login"><a href="/login">Login</a></option>
+            <option value="signup"><a href="/signup">SignUp</a></option>
+          </select>
+        </div>
+        {% else %}
+        <p style="color:red;">Hi {{user.username}}</p>
+        <div class="if_authenticated">
+          <a href="/logout">Logout</a>
+        </div>
+        {% endif %}
+      </nav>
+      
+    {% block content %} {% endblock %}
+  </body>
+</html>

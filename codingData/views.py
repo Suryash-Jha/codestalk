@@ -49,7 +49,8 @@ def getBasicData(request, id):
 
     return JsonResponse(res)
 
-@login_required
+
+# @login_required
 def createId(request):
     statusCode = 200
     status = ""
@@ -79,6 +80,7 @@ def IdExists(id):
     except userDetails.DoesNotExist:
         return False
     return True
+
 
 @login_required
 def retrieveFromDb(request, id):
