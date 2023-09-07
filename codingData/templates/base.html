@@ -16,7 +16,7 @@
 
     <nav>
         <a href="/">Home</a>
-        {% if not user.authenticated %}
+        {% if not user.is_authenticated %}
         <div class="if_not_authenticated">
           <select name="register" id="register">
             <option value="login"><a href="/login">Login</a></option>
